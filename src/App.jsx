@@ -20,7 +20,7 @@ async function fetchWeather(){
     setError(null);
   }
   catch(error){
-    console.log(error.message);
+  
     setError(error.message);
   }
   finally{
@@ -58,15 +58,16 @@ function SearchBar({city,handleInput,fetchWeather}){
 }
 
 function WeatherCard({result,isLoading,error}){
-  if(result.length===0) console.log('result is 0');
+  
  const list=result.map((val,index)=>{
   const {city,temperature,wind,rain}=val;
 
   return <WeatherRow city={city} temperature={temperature} wind={wind} rain={rain} key={index}/>
  });
+ if(isLoading) return <p>Loading...</p>;
+ if(error) return <p>{error}</p>;
   return <div>
-   {isLoading&&<p>Loading..</p>}
-   {error&&<p>{error}</p>}
+   
 {list}
   </div>;
 }

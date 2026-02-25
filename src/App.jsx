@@ -37,8 +37,8 @@ setCity(text);
 
 }
   return <div className="max-w-sm mx-auto mt-8 p-4 bg-white rounded-2xl shadow-xl border border-gray-200">
-  <SearchBar city={city}  handleInput={handleInput} fetchWeather={fetchWeather}/>
-  <div className="mt-2 border-2 text-center">
+  <SearchBar city={city}  handleInput={handleInput} fetchWeather={fetchWeather} isLoading={isLoading}/>
+  <div className="mt-4">
     <WeatherCard result={result} isLoading={isLoading} error={error}/>
   </div>
     
@@ -51,9 +51,13 @@ setCity(text);
 }
 
 
-function SearchBar({city,handleInput,fetchWeather}){
+function SearchBar({city,handleInput,fetchWeather,isLoading}){
   return <div className="flex justify-between gap-1.5">
-    <input  value={city} type='text' placeholder="Type the city to search" className="border-2 flex-1" onChange={(e)=>{handleInput(e)}}/> <button className="border-2" onClick={fetchWeather}>Search</button>
+    <input  value={city} 
+    type='text' 
+    placeholder="Type the city to search" 
+    className="flex-1 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 "
+     onChange={(e)=>{handleInput(e)}}/> <button className={`px-4 py-2 rounded-lg text-white font-medium ${isLoading?"bg-blue-300 cursor-not-allowed":"bg-blue-500 hover:bg-blue-600"}`} onClick={fetchWeather}>{isLoading?"Searching..":"Search"}</button>
   </div>;
 }
 

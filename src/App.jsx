@@ -37,7 +37,7 @@ setCity(text);
   return <div className="w-80 h-32 items-center mx-auto mt-4">
   <SearchBar city={city}  handleInput={handleInput} fetchWeather={fetchWeather}/>
   <div className="mt-2 border-2 text-center">
-    <WeatherCard result={result}/>
+    <WeatherCard result={result} isLoading={isLoading}/>
   </div>
     
 
@@ -55,7 +55,7 @@ function SearchBar({city,handleInput,fetchWeather}){
   </div>;
 }
 
-function WeatherCard({result}){
+function WeatherCard({result,isLoading}){
   if(result.length===0) console.log('result is 0');
  const list=result.map((val,index)=>{
   const {city,temperature,wind,rain}=val;

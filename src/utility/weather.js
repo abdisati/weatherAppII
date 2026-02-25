@@ -1,12 +1,12 @@
 export class Weather{
 
     async getWeather(city){
-        const city=city.trim();
+        const cleanedCity=city.trim();
 
-        if(!city) throw new Error('City is empty'); //if city is empty throw an error
+        if(!cleanedCity) throw new Error('City is empty'); //if city is empty throw an error
         
 
-        const encodedCity=encodeURI(city);
+        const encodedCity=encodeURI(cleanedCity);
 
         const geoResp= await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodedCity}&count=10&language=en&format=json`);
 

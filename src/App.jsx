@@ -1,23 +1,41 @@
 import { useState } from "react";
+import { Weather } from "./utility/weather";
+
+
+const weath=new Weather(); //initialize weather class
 
 
 
 export default function App(){
 const [city,setCity]=useState('');
-const [isLoading,setLoading]=useState(true);
-const [result,setResult]=useState([{city:'London',temperature:'20 Celcius', wind:'20 km/h', condition:'Good'}]);
+const [isLoading,setLoading]=useState(false);
+const [result,setResult]=useState([]);
 const [error,setError]=useState();
+
+async function fetchWeather(){
+  try{
+    setLoading(true);
+    const data=await weath.getWeather(city);
+    setResult(data);
+  }
+  catch(error){
+    console.log(error.message);
+  }
+  finally{
+    setLoading(false);
+  }
+}
 
 
 
 function handleInput(e){
- const text=e.target.value.trim();
+ const text=e.target.value;
 setCity(text);
-console.log(city);
+
 
 }
   return <div className="w-80 h-32 items-center mx-auto mt-4">
-  <SearchBar city={city}  handleInput={handleInput}/>
+  <SearchBar city={city}  handleInput={handleInput} fetchWeather={fetchWeather}/>
   <div className="mt-2 border-2 text-center">
     <WeatherCard result={result}/>
   </div>
@@ -31,29 +49,31 @@ console.log(city);
 }
 
 
-function SearchBar({city,handleInput}){
+function SearchBar({city,handleInput,fetchWeather}){
   return <div className="flex justify-between gap-1.5">
-    <input  value={city} type='text' placeholder="Type the city to search" className="border-2 flex-1" onChange={(e)=>{handleInput(e)}}/> <button className="border-2" >Search</button>
+    <input  value={city} type='text' placeholder="Type the city to search" className="border-2 flex-1" onChange={(e)=>{handleInput(e)}}/> <button className="border-2" onClick={fetchWeather}>Search</button>
   </div>;
 }
 
 function WeatherCard({result}){
+  if(result.length===0) console.log('result is 0');
  const list=result.map((val,index)=>{
-  const {city,temperature,wind,condition}=val;
+  const {city,temperature,wind,rain}=val;
 
-  return <WeatherRow city={city} temperature={temperature} wind={wind} condition={condition} key={index}/>
+  return <WeatherRow city={city} temperature={temperature} wind={wind} rain={rain} key={index}/>
  });
   return <div>
+   {isLoading&&<p>Loading..</p>}
 {list}
   </div>;
 }
 
 function WeatherRow(props){
-  const {city,temperature,wind,condition}=props;
+  const {city,temperature,wind,rain}=props;
   return <ol>
     <li>City: {city}</li>
     <li>Temperature: {temperature}</li>
     <li>Wind: {wind}</li>
-    <li>Condition: {condition}</li>
+    <li>Rain: {rain}</li>
   </ol>
 }

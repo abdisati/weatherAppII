@@ -1,6 +1,7 @@
-class Weather{
+export class Weather{
 
     async getWeather(city){
+        const city=city.trim();
 
         if(!city) throw new Error('City is empty'); //if city is empty throw an error
         
@@ -27,14 +28,14 @@ class Weather{
 
         if(!weatherData.current) throw new Error('No data available');
 
-        const {temperature_2m:temperature,wind_speed_10m:wind,rain}=weatherData.current;
+        const {temperature_2m:temperature,wind_speed_10m:wind,precipitation:rain}=weatherData.current;
 
-        return {
+        return[ {
             city:name,
             temperature:temperature,
             wind:wind,
             rain:rain
-        }
+        }];
 
     }
 }

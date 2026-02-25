@@ -17,9 +17,11 @@ async function fetchWeather(){
     setLoading(true);
     const data=await weath.getWeather(city);
     setResult(data);
+    setError(null);
   }
   catch(error){
     console.log(error.message);
+    setError(error.message);
   }
   finally{
     setLoading(false);
@@ -37,7 +39,7 @@ setCity(text);
   return <div className="w-80 h-32 items-center mx-auto mt-4">
   <SearchBar city={city}  handleInput={handleInput} fetchWeather={fetchWeather}/>
   <div className="mt-2 border-2 text-center">
-    <WeatherCard result={result} isLoading={isLoading}/>
+    <WeatherCard result={result} isLoading={isLoading} error={error}/>
   </div>
     
 
@@ -55,7 +57,7 @@ function SearchBar({city,handleInput,fetchWeather}){
   </div>;
 }
 
-function WeatherCard({result,isLoading}){
+function WeatherCard({result,isLoading,error}){
   if(result.length===0) console.log('result is 0');
  const list=result.map((val,index)=>{
   const {city,temperature,wind,rain}=val;
@@ -64,6 +66,7 @@ function WeatherCard({result,isLoading}){
  });
   return <div>
    {isLoading&&<p>Loading..</p>}
+   {error&&<p>{error}</p>}
 {list}
   </div>;
 }

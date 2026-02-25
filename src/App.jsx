@@ -36,7 +36,7 @@ setCity(text);
 
 
 }
-  return <div className="w-80 h-32 items-center mx-auto mt-4">
+  return <div className="max-w-sm mx-auto mt-8 p-4 bg-white rounded-2xl shadow-xl border border-gray-200">
   <SearchBar city={city}  handleInput={handleInput} fetchWeather={fetchWeather}/>
   <div className="mt-2 border-2 text-center">
     <WeatherCard result={result} isLoading={isLoading} error={error}/>
